@@ -225,6 +225,7 @@ public class BPlusTreeSpark {
 		if(pointer <= root.getKeys().size()-1){
 				return lookFor(root.getKeys().get(pointer), value);
 			}
+		return false;
 		
 	}
 }
