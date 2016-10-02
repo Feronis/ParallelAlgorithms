@@ -1,0 +1,15 @@
+Justin Baraboo,Flarshiem,Computer Science,8168091668,1,5
+Emily Ishamel,Spencer,Biology ,8168074194,2,8
+Emily Orr,Spencer,Biology ,8168924891,3,9
+Tim Williams,Royal,Biology ,8418912148,4,29
+Michael Smith,Flarshiem,Engineering,3901941234,5,91
+Jacob Dean,Flarshiem,Engineering,8923285671,6,24
+Mary Okrr,Royal,Engineering,8291827894,7,9
+Mayanka Sekar,Flarshiem,Computer Science,8934893897,8,24
+Michael Keets,Flarshiem,Computer Science,8974287412,9,84
+Kevin Chavez,Spencer,Biology ,8748742894,10,25
+Krista Keffer,Spencer,Biology ,8478749804,11,42
+Daniyo Meez,Spencer,Engineering,9873241232,12,31
+Judy Blume,Royal,Computer Science,8973187491,13,94
+Ryan Seacrest,Royal,Computer Science,3289731829,14,22
+Hilary Clinton,Royal,Engineering,2897318947,15,15
