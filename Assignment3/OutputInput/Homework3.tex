@@ -1,0 +1,80 @@
+
+
+
+\documentclass[titlepage]{article}
+\usepackage{amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+\author{
+        Justin Baraboo, class ID 2\\
+	group 1
+	Homework 3\\
+       }
+\title{}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{Logistics}
+See my git hub for the code, input, output and cheat sheet file.\\
+https://github.com/Feronis/ParallelAlgorithms/tree/master/Assignment3
+
+Discussing the input, the program randomly creatures a specified number of BSTs with a specified number of nodes per tree (all trees will currently have the same amount of nodes, but that isn't important).  The input shows the roots of those nodes and their left and right child at the beginning and the output shows the roots of the bsts at the end. Note they are not the same and shouldn't be in most cases as we are sorting the trees into each other.
+
+
+\section{Parallel Sorting Of Binary Search Trees}
+I implemented features for sorting binary trees in parallel in Spark.
+
+\paragraph{Solution}
+In this module we focused on sorting algorithms chiefly on integers and how to parallelize sequential techniques.
+
+For the homework, we wanted to work with more complex data structures and sort them, so I sorted binary trees.
+The trees consisted of "Pair Nodes" that is an $x,y$ value for each node and originally each tree was sorted by the $x$ values.
+
+I had designed many sorting techniques at the beginning of the assignment, but only had one truly executed by its completion, however, I will present each idea.
+
+The first idea, and the implemented one, was to take in $n$ BSTs with random values  and and output $n$ BSTs where if you  placed the smallest root BST to the largest root BST, the entire data set would be in order.  This was accomplished changing from the root stucture to array structure and then sorting the entire list and then creating $n$ partitions of the RDD and recreating the arraylist.
+In my implementation, a few things could do better, such as mapping from tree to array without doing an in order traversal (this takes$O($height of sub trees$)$ where mapping could reduce that).  Another thing is to use a $MapParititon$ function instead of $foreachPartition$ as it would allow me not to have to broadcast the arraylist of roots into it.  This isn't that bad though as it's just a pointer.  This idea is implemented and works.  The benefit of the sorting scheme is that it allows a easier range searching as we know what range a BST could have from the BSTs that surround it.  However, if the $y$ element represents a freqeuncy of the term searched, it might be better to have more trees and also have the $y$s balanced.
+
+The second idea, was the sort in increasing $x$ order again, but have all the trees be balanced by the amount of $y$s in the tree, so instead of having an $n$ tree input to an $n$ tree output, it would be an $n$ tree input to an $m$ tree output.  Most of the heavy work is done by the first problem, however, a few greedy allowances need to be made to allow for non optimal, but all right solutions.  
+I could extend the first solution by modifying the $foreachParititon$ function and the number of partitions.  Where, if I have a threshold value $Y_{thresh}$, when adding nodes to the arraylist to transorm into a BST, I merely add until the next node would cross the $Y_{thresh}$ and make the BST and add the root and continue.  This is very greedy even with the increasing $x$ constraint as a better BST could be formed by crossing parititions, however, the solution is probably not bad.  This isnt' implemented though as I ran out of time trying to figure out $MapPartition$ and $foreachPartition$ logic.  This would be an extension of the above idea but allow queries to be balanced across processors.  The downside is you will likely have a lot more trees.
+
+The final idea, was the relax the the condition of having increasing $x$, but allow for each tree to have the same amount of nodes but also be below a threshold for $y$.  This idea was the most complex structure wise as you couldn't sort the entire list and then work with that.  I didn't put too much thought into solving this as it would essentially involve some sort of a greedy knapsack solution of grabbing the same amount of $y$s.  Also defining a threshold with outlier data would be hard as you can't have one tree just be a single high frequency node.  This idea was cool but not implemented.  You lose out on the idea of range queries though, but searching all the trees takes the same amount of time and all the loads are balanced in this schematic.
+
+
+
+\end{document}
+This is never printed
